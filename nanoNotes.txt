@@ -2,4 +2,10 @@
 
 # Starting a react project
 
+# Creating a new compoenent (where to put it, naming convetion)
 
+# What are props in react?
+
+You will use props all the time
+
+# Passing props (example)
