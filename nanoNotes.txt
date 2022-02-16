@@ -1,11 +1,75 @@
 # Reference vs Primitive types
 
+The difference between reference and primitive types is that primitive types store the actual value
+themselves.
+
+const a = 1;
+const b = a;
+
+b = 2;
+
+console.log(a,b);
+a => 1
+b => 2
+
+With reference types they point to the same location in memory
+
+const person = {name: 'max'};
+const newPerson = person;
+
+newPerson.name = 'Daniel';
+
+Both names will change because both variables point to the same place in memory, to circumvent
+this behaviour we can use the spread operator to copy the objects properties
+
+const newPerson = {...person};
+
 # Starting a react project
+
+The team at facebook crated a git repo which we can use to create a template react app
+
+just navigate to the folder you want your project in and type : npx create-react-app app-name
+then cd into that folder and write npm start
 
 # Creating a new compoenent (where to put it, naming convetion)
 
+The convetion is to create a components folder in the src folder
+
+Then we type the component name like this: MyComponent, ExpenseItem, TodoItem etc
+Next to this component we also put the css file which will have the same name but .css termination
+
+In the component js file we have to import the css file liek this
+
+import './MyCssFile.css';
+
+And we can import other components if we wish to use then
+
+# What is JSX ?
+
+JSX Stands for JavaScript XML and is a special syntax used in a react project that can help us
+write HTML like code in a Javascript file which will get parsed later behind the scenes
+
 # What are props in react?
 
-You will use props all the time
+Props in react is a way of passing data trough different components as a key value pair.
 
-# Passing props (example)
+The component passing the data:
+<MyComponent data={externalDataArray}/>
+
+/* MyComponent
+
+function MyComponent(props) {
+  return (
+   <div>My name is: {props.data.name} </div>
+);
+
+}
+
+
+You will use props all the time it allows your components to be reusable and it allows to pass
+data from one component to another
+
+# Using JS logic in React
+
+It is a good practice to put any JS code before the return statement and reference it in the 
+return statement
