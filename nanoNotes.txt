@@ -73,3 +73,216 @@ data from one component to another
 
 It is a good practice to put any JS code before the return statement and reference it in the 
 return statement
+
+
+# What is composition ?
+
+Composition is building a UI from smaller blocks (compnents)
+
+# How do we create wrappers in React, How do we make them work?
+
+In our project we created a card wrapper that wrapped around each expense item and the whole expense list. 
+A wrapper is a components that acts like a shell around another component
+
+<Card>
+  <Expenses data={expenses}
+</Card>
+
+The card component looks something like this
+
+function Card(props){
+  const classes = "card " + props.className;
+
+  return(
+  <div className={classes}>{props.children}</div>
+)
+};
+
+We use the classes variable so that the children of each card will have the card selector and their
+own selector, thus appling both styles
+
+# What is children.props and when do we use it?
+
+In the case above we need children.props because that will be the content between the opening and closing tags
+
+<Card>
+ ...children JSX
+</Card>
+
+# Why can we find in older projects import react from 'react' ?
+
+Because in older projects we had to import react in each component in order to use react.renderComponent
+
+# Event Handlers in React ?
+
+Event handlers in react are fairly easy. 
+
+We just add a event handler prop on a component
+
+<form onSubmit={formSubmitHandler}>
+  ...
+</form>
+
+# What is React State ?
+
+React state is a hook (more on this later) which helps us track the state of a component
+
+We import it like this: import {useState} from 'react'
+
+React state always returns an array of 2 elements, the first one is the initial state and the second
+one is the a function which sets the state when called
+
+const [date, setDate] = useState(initialDate);
+
+function dateHandler(inputDate){
+  setDate(inputDate);
+}
+
+the setters don't happen instantly, they are scheduled behinde the scenes. Also when the setDate
+function is ran, it triggers a component rerender
+
+# When do we need states ?
+
+We need states when data in a component changes and we need to track and update that component when
+it changes
+
+# Does useState keep track of the initial value?
+
+useState accepts the initial value variable as an argument
+
+# What happens when we call the function from useState?
+
+It re-renders the component in which useState is called
+
+# Using one state instead of multiple states
+
+In our test app we had a form where the user fills out 3 form inputs. We want to store the inputs in state each time a change is happening
+so for this we create a new State for each one.
+
+const [inputTitle, setInputTitle] = useState('');
+const [inputAmount, setInputAmount] = useState('');
+
+function inputTitleHandler(event) {
+  setInputTitle(event.target.value);
+}
+
+<input type='text' onChange={inputTitleHandler}>
+
+# The correct way of updating state and why is it better?
+
+Now I am not sure if we should use this only when using multiple states in a single use state or even when using seperate single states
+
+Using multiple states
+
+const [userInput, setInput] = useState({
+  inputTitle: '',
+  inputAmount: '',
+})
+
+function inputTitleHandler(event) {
+  setInput((prevState) => {
+  return  {...prevState, inputTitle: event.target.value}
+)
+}
+}
+
+# What is a two-way binding and where did we used it?
+
+Simple definiton: Two-way binding is a process of listening to events on a component and changing/resetting the state of that component.
+
+
+Two way binding means that we not only listen to changes on a component but we can pass in a new value to reset or change the input 
+programatically
+
+We first used this in our form. 
+
+const [inputTitle, setInputTitle] = useState('');
+const [inputAmount, setInputAmount] = useState('');
+
+function inputTitleHandler(event) {
+  setInputTitle(event.target.value);
+}
+
+<input type='text' onChange={inputTitleHandler} value={inputTitle}>
+
+Now imagine we have a function that executes when we submit a form. This function before returning it will use setInputTitle('') to an
+empty string and after it returns it will reset that field thus creating a 2 way binding.
+
+So again by doing this we create a 2 way binding because we can pass value into an input field and also reset that input field (or change
+it if we want to)
+
+# We know how to pass data from parent > child but how do we pass data from child > parent ?
+
+In order to pass data from parent to child we use props
+
+// App.js
+
+<Expenses data={expensesArray}/> // We passed the data prop to the Expenses component
+
+// Expenses.js
+
+function Expenses(props) {
+  <div className="expenses">
+    <h2>{props.title}</h2>
+  </div>
+}
+
+Now in order to pass data from the child to the parent we use a very clever way. We use another prop on the parent component which
+accepts data as an argument then we call that function in the child component with the data that we obtained from that component
+
+// Parent.js
+
+function dataHandler(data) {
+  console.log(data}
+}
+
+<Child date={someData} onAddDate={dataHandler}>
+
+// Child.js
+
+function Child(props) {
+  
+  function dateChangeHandler(event){
+    props.onAddDate(event.target.value);
+  }
+
+  return (
+    <input type='date' onChange={dateChangeHandler}/>
+}
+
+# What is the difference between a parameter and an argument in funtions?
+
+Parameters are the ones that a function needs and arguments are variables we pass in when we call
+the funtion
+
+# What do we need to find when we want to pass data between 2 sibbling components
+
+We need to find the first common parent.
+
+Explanation:
+
+In our project we have 2 sibbling components. One that generates data (by a user filling out a form) and one component that needs that
+data to render a new expense. In order for the component that needs data we need to find the first common parent so that the other component
+can 'send' the data to that parent and after that, the parent component can pass the data down to the component that needs that data.
+
+Parent : App.js
+Data Generator Component: ExpenseForm.js
+Component that renders the datra : Expenses.js > NewExpense.js
+
+# How do we lift the state up, and how did we do it in our example?
+
+Lifting up the state is basically what we explained in the previous section.
+
+We lift up the state when we call the prop that fetches the data from the child component.  
+
+# How high do we have to lift the state?
+
+This was also explained. we need to lift the state as high as necesarry until we reach a common parent between the 2 components that
+generate and need the data.
+
+# Recreate the filterExpenses by yourself (don't forget 2 way binding)
+
+Done in VSCode.
+
+
+# What is a Controlled Component
