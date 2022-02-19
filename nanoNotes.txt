@@ -286,3 +286,152 @@ Done in VSCode.
 
 
 # What is a Controlled Component
+
+Whenever we create a two-way binding we create a controlled component meaning a value used in the child is passed on to the parent
+using props and also with props we do something with that value in the parent component
+
+# How to programatically render multiple components in React?
+
+We can use map, filter to generate multiple react components in the JSX syntax, even typing [<div></div>, <h2>test</h2] in the return
+statement of the component will render that array of elements
+
+Using this logic we can do the following
+
+return (
+  <div>
+    {props.items.map(expense => <Expense title={expense.title}}
+  </div>
+)
+
+# What are stateful lists and where did we use them in our project?
+
+Stateful lists are arrays on which we keep track of their state (when something is added or removed from them). We used this in our project
+to re-render the Expenses component whenever our expenses array receives a new expense or an expense gets removed.
+
+# We get a key error when we have no defined key prop on our list, why is that, what are the downfalls of this and how to fix it?
+
+Whenever we display a list in react (eg array of expenses) react excepts to have a unique key for each of them in order to optimize rendering
+them.
+
+This can be done by using the key prop on the displayed array element
+
+<ExpenseItem key={expense.key}>
+
+If we don't use this React has no way of identifiying each separate element from the array so it basically adds a new expense in the 
+beginning of the list and then rerenders the whole array but using keys it just ads the element to the beggining of the lsit without
+re-rendering all items.
+
+# How to hide/show stuff in react(no css needed and old type event lsiteners)
+We had a task to hide the form in our app and only open it when a certain button is clicked. With my previous knowledge I would've added
+event listeners and do some CSS magic for this to happen but in in React we can use plain js or jsx code to make this happen.
+
+For this to work we needed a state for isEditing and when its false the form is hidden other wise the form is shown
+
+Expenses.js
+
+const [isEditing, setIsEditing] = useState(false) // setting it false by default
+
+function cancelEditHandler(){
+  setIsEditing(false)
+}
+
+function startEditHandler(){
+  setIsEditing(true)
+}
+
+return (
+  <Card>
+    {!isEditing && <button onClick={startEditingHandler}>Add New Expense</button>}
+    {isEditing && <ExpenseForm cancelEditing={cancelEditHandler}}
+  </Card>
+
+)
+
+We pass on the cancelHandler to the expenseform which will contain a cancel button and when that is click isEditing is set to false
+
+# How to output conditional content in js
+
+We needed conditional content when our filtered expenses had the lenght of 0
+
+And this is how the logic works
+
+return(
+  <div>
+    {filteredExpenses.lenght > 0 ? <Expenses data={filteredExpenses}: <p>No results found</p>}
+  </div>
+
+)
+
+# How to add inline styles in react? (+Dynamic)
+
+To apply inline styles we just do the following:
+
+<MyComponent style={{height: '100px', 'background-color': 'red', }}/>
+
+To use them in a dynamic way I do the following
+
+<MyComponent style={{backgroundColor: formIsValid ? 'white' : 'red'}}
+
+# How to use Styled components in react? (Dynamic + Media queries also)
+
+Styled components are an external JS library so we have to install them by
+
+npm install styled-components --save
+
+After that we import them in the component we want to use 
+
+import styled from'styled-components'
+
+const Button = styled.button`
+  height: 20px;
+  width: 20px
+  cursor: pointer; 
+  background-color: ${formIsValid ? 'grey' : 'red'}
+ 
+  &:hover{
+    font-size: 20px;
+  }
+
+`
+!! This formIsValid has to be a prop passed to the component
+
+This is the component, even tough it looks weird the backticks are simple JS syntax and this Button is ran behind the scense
+
+And that is how we add dynamic rules with styled components
+
+# How to use CSS Modules in react? (All steps) And what does it do under the hood?
+
+CSS Modules is the best of both worlds in React meaning that it will still scope the CSS to the component and it maintains a 
+relatively friendly approach
+
+We are in luck because React by default uses CSS Modules we just have to change our code a bit
+
+Instead of MyComponent.css we write MyComponent.module.css
+After this we change the import to : import styles from './MyComponent.module.css'
+
+Now in order to apply this we have to write classNames a bit different, under the hood this styles method tranforms our CSS Classes
+into object properties so this is how we reference them
+
+<FormExpense className={`${styles['form-control']} ${!formIsValid && styles['form-control--invalid']}`}>
+  ...
+</FormExpense>
+
+# Why are styled components different than using the method we did before ?
+
+Before our CSS files behaved like global CSS, meaning if we had a style on component and we used another component which had the same
+style it would both apply. CSS Modules and Styled Components scope the styles to the component and when you check in developer
+options you will see that these don't have the classNames anymore, they are unique.
+
+# How to remove an element from an array using filter/map
+
+A clever way of "deleting" and element from an array without effecting is using filter
+
+const myArr = [1,2,3,4,5,6];
+
+console.log(myArr.filter(el => el !== 6)); // Return [1,2,3,4,5]
+console.log(myArr.map(el => el !== 6)); // Returns [true, true, true true, true, false]
+
+ 
+# Does the debugger makes our lives easier?
+
+
