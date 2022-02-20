@@ -1,0 +1,42 @@
+.modal {
+  position: absolute;
+  width: 50%;
+  height: 35%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+}
+
+.modal__header,
+.modal__description {
+  margin: 0;
+  padding: 0;
+}
+
+.modal__header-box {
+  background-color: #f87171;
+  padding: 1rem;
+}
+
+.modal__header {
+  display: inline-block;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.modal__text-box {
+  padding: 2rem 1rem;
+}
+
+.modal__description {
+  font-size: 1.6rem;
+  display: block;
+}
+
+.modal button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(-15%, -25%);
+}

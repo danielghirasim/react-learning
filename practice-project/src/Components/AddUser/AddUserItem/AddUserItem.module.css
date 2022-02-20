@@ -1,0 +1,10 @@
+.user {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 2rem;
+}
+
+.user__name,
+.user__age {
+  font-size: 2rem;
+}
