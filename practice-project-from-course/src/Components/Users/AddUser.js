@@ -1,5 +1,4 @@
-import { useState, React } from 'react';
-
+import React, { useState } from 'react';
 import classes from './AddUser.module.css';
 import Card from '../UI/Card/Card';
 import Button from '../UI/Button/Button';
@@ -39,9 +38,8 @@ function AddUser(props) {
   function ageChangeHandler(event) {
     setEnteredAge(event.target.value);
   }
-  
   return (
-    <div>
+    <React.Fragment>
       {error && <ErrorModal title={error.title} message={error.message} onConfirm={closeErrorModal} />}
       <Card className={classes.input}>
         <form onSubmit={submitHandler}>
@@ -58,7 +56,7 @@ function AddUser(props) {
           <Button type="submit">Add User</Button>
         </form>
       </Card>
-    </div>
+    </React.Fragment>
   );
 }
 
