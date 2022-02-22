@@ -1,0 +1,11 @@
+.todo__item {
+  display: inline-block;
+  list-style: none;
+  font-size: 2rem;
+  border: 1px solid black;
+  padding: 1rem;
+}
+
+.completed {
+  background-color: rgb(106, 240, 106);
+}
