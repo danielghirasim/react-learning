@@ -434,4 +434,364 @@ console.log(myArr.map(el => el !== 6)); // Returns [true, true, true true, true,
  
 # Does the debugger makes our lives easier?
 
+Yes debugger is very good, just go into developer console > sources then put a breakpoint where you want and step trough code
 
+You can even download react debugging tool which gives you another 2 tabs in teh developer tools for debugging.
+
+# How to create a Card wrapper in React and how to consolidate class names with its children?
+
+To create a card warpper we just do the following
+
+import styles from './Card.module.css'
+
+function Card(props) {
+  
+ return <div className={`${styles.card} {props.className}`}>
+             {children.props
+        </div>
+
+}
+
+# What happens behind the scense when you use a component in another component ? (what is the props parameter reffering to)?
+
+The component you use is basically a function so it is called and the props of the called component will be the props we set
+in the parent component which is calling it
+
+function App(){
+   return <div>
+             <Button onClick={myHandler}>Ok</Button>
+          <div>
+}
+
+function Button(props){
+  return <button onClick={props.onClick} >{props.children}</button>
+}
+
+the onClick prop of the button will call the myHandler function
+
+
+# Naming convention for event handlers passed down as props to child components ? Type examples for the following : Add User,
+# Change date, delete item, update product
+
+The naming convention of event handlers is to use on before them
+
+Lets say in your App component, you use another AddUser component which is a form. When that form is submitted we want to pass
+down a function for that form which is called and the logic is handled in App.js
+
+App.js
+
+return <React.Fragment>
+         <AddUser onAdd={addUserHandler}/>
+       </React.Fragment>
+
+When the form is submitted in our AddUser form we want to call props.onAdd which will call addUserHandler from our App.js
+
+# Where did we handle the bad data validation in our example project ?
+
+We handled it right where we get our data, the form input component, here we check if the data entered is ok and if it is
+we use the prop handler to lift the state up to the parent component.
+
+# Where did we add the key to our list?
+
+In this example we create our list item component right in the Lists.js component and we need a key for it so we just have to add
+the key on the <li> component
+
+function UserLists(props) {
+  return (
+    <Card className={classes.users}>
+      <ul>
+        {props.users.map((user) => (
+          <li key={user.id}>
+            {user.name} ({user.age} years old)
+          </li>
+        ))}
+      </ul>
+    </Card>
+  );
+}
+
+
+# What type of position did the teacher use for the ErrorModal background overlay ?
+
+I used absolute positioning in my example but the teacher used fixed positioning which is way better because it doesn't depend
+on a position: relative parent
+
+.overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba (0,0,0,0.35);
+}
+
+# In which component did we use the ErrorModal component and what was the logic behind it?
+
+The ErrorModal component was used in the component that was causing the error itself, AddUser which is contains a form. And the
+logic was to use the error component in the component which generates the error, semantically it is not great but later we will
+use portals to fix it
+
+# What are the workarounds of returning sibbling components in react ? Which to use ? Problems that occur? Performance?
+
+We have the first workaround of just wrapping 2 sibblings in a DIV or creating a Wrapper component that just returns props.children
+
+Until now we used to wrap sibblings in a div but this causes a phenomenon called div soup meaning that we nest divs unnecesarally
+which can cause performance problems later on because rendering divs even if they are empty in a large project can cause issues.
+
+# The best workaround for div soup ?
+
+The best workaround is to use React.Fragment from the react-dom library
+
+# What is a React Fragment and what are the 2 syntaxes for it ?
+
+React Fragement is basically a way of wrapping 2 sibbling elements in React without causing an error. 
+
+The 2 syntaxes are:
+
+<React.Fragment>
+  ...
+</React.Fragment>
+
+or (if project is setup for it)
+
+<>
+  ...
+</>
+# How to import React fragment (named and whole React)
+
+import React, { useState} from 'react'
+
+import React from 'react'
+
+# Why do we need react portals ? What is the semantic impact if we didn't use portals (screen readers hint) ? What do portals do?
+
+React portals are a way of "sending" an HTML element to a different location than the component we call it in. For example
+we have an AddUser component which is in input form, if this form doesn't validate then it shows a modal in the form. Now the
+modal occupies the whole screen and semantically it should be the direct child of the body component.
+
+With React Portals we can correct this semantic mistake. Also it is real good for accesability because
+
+# How to use react portals, imports needed, show the ReactDOM.createPortal() method
+
+React portals need 2 items, the element we want to port and the location we want to port it to.
+
+First is the import
+
+import ReactDOM from 'react-dom'
+
+<React.Fragment>
+  {ReactDOM.createPortal(<ErrorModal onConfirm={props.onConfirm}/>, document.getElementById('modal-root'))}
+<React.Fragment>
+
+And lets not forget we added a new element in our ./Public/index.html with the id="modal-root" which is a direct child of the body
+
+# What are react refs ? How do we import them ? When to use them and what not to use them for?
+
+useRef is a react hook that lets us create a reference to the DOM element created by a component.
+
+Example :
+
+We create an form and place refs on the inputs. Whenever the component rerenders we will get the DOM nodes from the refs
+
+import { useRef } from 'react'
+
+function App(props){
+ const titleInput = useRef();
+
+ function submitHandler(event){
+    event.preventDefault();
+    props.onSubmit(titleInput.current.value);
+}	
+
+ <form onSubmit={submitHandler}>
+   <input type='text' ref={titleInput}'/>
+   <button>Ok</button>
+ </form>
+
+}
+
+It is not recommended to change the value of the dom with refs we leave that to React.
+
+# Explain controlled vs uncontrolled components ? (refs vs 2 way binding)
+
+Before refs we had a 2 way binding in the input component but since we changed the 2 way binding with ref and we also reset
+the value with refs(do not do this) our component became an uncontrolled component. Now you might argue we still change the value
+of the inputs from react but which is tehnically correct but in reality we change the value of the DOM element where as before
+the changed value came from a react state hook.
+
+
+# What are effects or side effects in react?
+
+React has one main job: Render UI , React to use action if interface needs changes then re render the component.
+
+Now imagine we have a login form and when we click on the login form besides rendering another screen we have to make a HTTP request
+to the server. This is a side effect. Everything that doesn't have to do with React and rendering the UI is basically a side effect
+in our example.
+
+To handle these side effects we are going to use a new hook called useEffect();
+
+Pseudo example
+
+function UserInput(){
+  const [isFormValid, setFormValid] = useState();
+  const [enteredEmail, setEnteredEmail] useState();
+
+  useEffect(() => {
+      let timer = setTimeout(() => {
+      setFormValid(enteredEmail.includes(@));
+    },500)
+ 
+
+  return () => {
+    clearTimeout(timer)
+    }
+} , [enteredEmail])
+
+}
+
+# what is useEffect() ? How many and what arguments does it take ?
+
+useEffect is a react hook and it takse in 2 arguments (the last one is not necessary).
+
+The first parameter is a function that will be called if ANY of the dependencies change
+
+The second parameter are the dependencies. This can be omited
+
+# When does useEffect() run ? Before or after the component evaluation ?
+
+useEffect() runs after component evaluation (component render)
+
+# When to use useEffect() ?
+
+useEffect is a very important hook that should be used in response to something. For login validation we can use useEffect();
+
+# What happens when we call useEffect() with no dependencies, with an empty array and with actual dependencies
+
+1.) If you call useEffect() with no dependencies it will run the first time the component is rendered and everytime after the component is
+reevaluated
+
+2.) If you call useEffect() with an empty array as dependencies it will only run the first time the component is rendered
+
+3.) If you call useEffect() with an array of dependencies it will run the first time the component is rendered and every time one of the dependencies
+change
+
+# What is debouncing and where did we use it in our project?
+
+Debouncing is a term that comes from electronic.
+
+Take a remote, the action of pressing a button and releasing it is much slower than the time the signal needs to travel from the button to the
+boards chip exectuing the command. So debouncing is adding a delay after the button has been pressed to workaround multiple signals being sent.
+
+Now how will we use this in our project?
+
+We have an InputForm that currently validates on each keystroke press, in a real world app this will be sending tons of HTTP requests to the
+server so we are going to use a timeout to prevent this
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFormIsValid(enteredEmail.includes('@') && enteredPassword.trim().length > 6);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [enteredEmail, enteredPassword]);
+}
+
+Take the example above. 
+
+The clearTimeout() (inside the cleanup function)  function will run before the timer is set because thats how the cleanup function works 
+in this hook. After this cleans the  previous timer it sets a new one.
+
+# Show a debouncing example when validating our form inputs?
+
+We can take the example shown above
+
+# When does the useEffect cleanup function run?
+
+It runs before the code in the useEffect is executed
+
+# What is useReducer and when to use it ?
+
+useReducer() is a react hook and it is best use when you want to manage more complex states
+
+# What is the syntax for useReducer()?
+
+import {useReducer} from 'react'
+
+
+         STATE   DISPATCH FUNCTION        OUR REDUCER FN          INITIAL STATE
+const [emailState, dispatch] = useReducer(emailReducer, {inputValue: '', isValid: null})
+
+We can put our reducer function outside the component because this is just a callback function that uses the arguments passed into it
+
+function emailReducer(state, action) {
+  // State is the current state and action is an object passed from dispatch
+
+  if(action.type === 'INPUT__EMAIL'){
+    return { inputValue: action.payload.value, isValid: action.paylod.value.includes('@');
+  }
+}
+
+
+function emailChangeHandler(event) {
+  dispatch({type: 'INPUT_EMAIL', payload: event.target.value})
+}
+
+This is the general syntax for reducers, keep in mind that payload can send more data than a single property, we can pass a function into it
+or an object.
+
+# What should you avoid using as a dependency in the useEffect()?
+
+We should use only the dependencies that need to be used. For example if we use useReducer() and we only need one property of the state as 
+a dependency we should only add that property and not the whoe state
+
+# What is React Context API ? Why do we need it and how do we set it up?
+
+The React Context API helps us passing down props from parent to all descendents without having to pass it trough each child component.
+
+For the first way of using it we have to create a new component. The naming convention for it is kebab-case
+
+Ex:
+
+auth-context
+
+import React from 'react'
+
+const AuthContext = React.createContext({isLoggedIn: false});
+
+export default AuthContext 
+
+App.js
+
+return <AuthContext.Provider value={{isLoggedin : isLoggedInSate}}>
+          <Header/ onLogin={loginHandler}>
+       </AuthContext.Provider>
+
+now Imagine we need this isLoggedIn in Header and in the child of header, using it this way we don't have to pass it down manually trough
+each child but we still have to set a consumer 
+
+LastChild.js
+
+return <AuthContext.Consumer>
+          {(contextData) => {
+            return <nav>
+                      { contextData.isLoggedIn && (<ul>My Nav</ul>)}
+                   </nav>
+          }}
+       </AuthContext.Consumer> 
+
+# What is the first and second way of using React Context API?
+
+
+### Students complained that this lecture is quite difficult if you don't understand try searching on Youtube. (reffering to reducer,
+### useEffect, useContext)
+
+
+
+
+## Miscelanious Questions for later when I have more knowledge
+
+# What naming convetion do we use if we pass a handler as a prop from App.js > ParentComponent1 > ParentComponent2
+
+# Important stuff to recap : when does useEffect run, when does a component re render if it is a controlled one ?
