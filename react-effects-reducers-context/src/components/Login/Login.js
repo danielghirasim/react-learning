@@ -3,6 +3,7 @@ import AuthContext from '../../context/auth-context';
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
 import Button from '../UI/Button/Button';
+import Input from './Input';
 
 function emailReducer(state, action) {
   if (action.type === 'USER_INPUT') {
@@ -60,35 +61,40 @@ const Login = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log('logging in');
-    contextData.onLogin(emailState.value, passwordState.value);
+    if (formIsValid) {
+      contextData.onLogin(emailState.value, passwordState.value);
+    } else if (!emailState.isValid) {
+      // Focus Email Input
+    } else {
+      // Focus Password Input
+    }
   };
 
   return (
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
-        <div className={`${classes.control} ${emailState.isValid === false ? classes.invalid : ''}`}>
-          <label htmlFor="email">E-Mail</label>
-          <input
-            type="email"
-            id="email"
-            value={emailState.value}
-            onChange={emailChangeHandler}
-            onBlur={validateEmailHandler}
-          />
-        </div>
-        <div className={`${classes.control} ${passwordState.isValid === false ? classes.invalid : ''}`}>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={passwordState.value}
-            onChange={passwordChangeHandler}
-            onBlur={validatePasswordHandler}
-          />
-        </div>
+        <Input
+          id={'email'}
+          inputType={'email'}
+          label={'E-Mail'}
+          isValid={emailState.isValid}
+          value={emailState.value}
+          onChange={emailChangeHandler}
+          onBlur={validateEmailHandler}
+        />
+
+        <Input
+          id={'password'}
+          inputType={'password'}
+          label={'Password'}
+          isValid={passwordState.isValid}
+          value={passwordState.value}
+          onChange={passwordChangeHandler}
+          onBlur={validatePasswordHandler}
+        />
+
         <div className={classes.actions}>
-          <Button type="submit" className={classes.btn} disabled={!formIsValid}>
+          <Button type="submit" className={classes.btn}>
             Login
           </Button>
         </div>
