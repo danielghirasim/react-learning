@@ -6,10 +6,11 @@
 
 html {
   font-family: 'Noto Sans JP', sans-serif;
+  font-size: 62.5%;
 }
 
 body {
   margin: 0;
+  padding: 0;
   background-color: #3f3f3f;
 }
-
