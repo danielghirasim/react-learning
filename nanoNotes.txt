@@ -783,6 +783,54 @@ return <AuthContext.Consumer>
 
 # What is the first and second way of using React Context API?
 
+The first way is described above and for the second way is much more elegant
+
+1. We import {useContext} from 'react'
+2. Delete the AuthContext.Consumer wrapper, we don't need it.
+3. call useContext : const contextData = useContext(AuthContext) => AuthContext(imported context)
+
+return <nav>
+         {contextData.isLoggedIn && <ul>My Nav</ul>}
+       </nav>
+
+
+# When to use props and when to use context?
+
+Props is our default way of passing down data trough components but we can use context if we have to pass down data trough multiple layers
+of components and with props this can be quite cumbersome
+
+# Recreate auth-context for a better understading
+
+# What are the rules of react hooks?
+
+1. React hooks always start with use
+2. React hooks must be used inside a React component and on the top level of that component
+3. Some hook related functions can be used outside a react component like react reducer functions.
+4. In case of useEffect always add dependencies from inside the useEffect hook inside the dependencies array UNLESS there is no need to
+like a useState function because this is guaranteed it will not change by react
+
+# Why do we use props for reusable components and not context ? (Hint hint configuration inside parent app of the child)
+
+When we use react context hook we can use the data provided in the react context but not change it.
+
+
+function App() {
+  const contextData = useContext(AuthContext);
+
+  return (
+    <React.Fragment>
+      <MainHeader />
+      <main>
+        {!contextData.isLoggedIn && <Login />}
+        {contextData.isLoggedIn && <Home />}
+      </main>
+    </React.Fragment>
+  );
+}
+
+Notice above we just set it to a variable. 
+
+Now imagine this was a button, we could use the context of the button but we could not add other props on the button.
 
 ### Students complained that this lecture is quite difficult if you don't understand try searching on Youtube. (reffering to reducer,
 ### useEffect, useContext)
