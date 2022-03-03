@@ -67,15 +67,9 @@ const Login = () => {
     if (formIsValid) {
       contextData.onLogin(emailState.value, passwordState.value);
     } else if (!emailState.isValid) {
-<<<<<<< HEAD
       emailInputRef.current.focus();
     } else {
       passwordInputRef.current.focus();
-=======
-      // Focus Email Input
-    } else {
-      // Focus Password Input
->>>>>>> c2510e571f8214740567bd40235ba6282bce4300
     }
   };
 
@@ -83,10 +77,7 @@ const Login = () => {
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
         <Input
-<<<<<<< HEAD
           ref={emailInputRef}
-=======
->>>>>>> c2510e571f8214740567bd40235ba6282bce4300
           id={'email'}
           inputType={'email'}
           label={'E-Mail'}
@@ -97,10 +88,7 @@ const Login = () => {
         />
 
         <Input
-<<<<<<< HEAD
           ref={passwordInputRef}
-=======
->>>>>>> c2510e571f8214740567bd40235ba6282bce4300
           id={'password'}
           inputType={'password'}
           label={'Password'}

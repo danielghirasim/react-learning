@@ -835,6 +835,60 @@ Now imagine this was a button, we could use the context of the button but we cou
 ### Students complained that this lecture is quite difficult if you don't understand try searching on Youtube. (reffering to reducer,
 ### useEffect, useContext)
 
+# Why we use forwardRef for our inputs?
+
+We want a behaviour in our login page where if the use clicks on the login button, the app would then highlight the incorrect input. For
+this we have to make a connection between our component DOM and the component where we handle the logic.
+
+Since this behaviour happens on react component which and the logic is handled in another component we cannot simply rely on useRef, it won't
+work.
+
+In order for this to work we have to apply useRef in the parent component on both our input fields.
+
+# What do we need to do before using forwardRef (imperativeHandler, adding refs, second argument)
+
+1. We transform our component into a React.forwardRef();
+
+const MyComponent = React.forwardRef((props, ref) => {}));
+
+2. We need to pass a second argument to our component which we always have access to function MyComponent(props,ref);
+3. In order to make ref connect to the ref prop we pass where it is instanciated we have to use
+useImperativeHandler(ref, () => {
+  return {
+    focus: activate
+  ]
+}
+This method takes in ref as first argument and a function as a second arguemnt which returns on object which we can use in our parent
+component.
+ 
+
+# What binds the ref from the component to the place where the component is used?
+
+The useImperativeHandler hook
+
+# How to we add images in React?
+
+For best practice we create an assets folder and we just import it like a module then use it in our JSX code
+
+# How to create a custom input component that accepts an object as props and what is the syntax for it?
+
+Lets say we want to creat a custom input
+
+function Input(props){
+   return {
+       <label htmlFor={props.input.id}>{props.label}</label>
+       <input {...props.input}/>
+   }
+
+}
+
+function ParentComponent{
+    <input input={
+         type: 'text',
+         placeholder: 'test',
+         ...
+      }
+}
 
 
 
