@@ -1,0 +1,15 @@
+.meals {
+  margin: 0 auto 3rem auto;
+  color: #000;
+  max-width: 60%;
+  text-align: center;
+}
+
+.meals__title {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.meals__description {
+  font-size: 1.4rem;
+}

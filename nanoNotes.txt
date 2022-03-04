@@ -890,7 +890,44 @@ function ParentComponent{
       }
 }
 
+# How to "bind" a function to a passed down prop with arguments we want?
 
+Let's take the following example.
+
+We have a cart component and in the cart component we will have CartItems. Each CartItem has a 
+Name, price, amount and a + and - button. With these buttons we can increase or decrease the qty
+of the items in our basket.
+
+Since these CartItems are components that we instanciate in our Cart component we can give them props
+like key, name, price, amount and functions.
+
+The functions we want to give these CartItems are onAdd and onRemove which are defined in the parent
+component.
+
+  function cartItemAddHandler(item) {
+    cartContext.addItem(item);
+  }
+  function cartItemRemoveHandler(id) {
+    cartContext.removeItem(id);
+  }
+
+  const cartItems = (
+    <ul className={classes['cart-items']}>
+      {cartContext.items.map((item) => (
+        <CartItem
+          key={item.id}
+          name={item.name}
+          amount={item.amount}
+          price={item.price}
+          onAdd={cartItemAddHandler.bind(null, { ...item, amount: 1 })}
+          onRemove={cartItemRemoveHandler.bind(null, item.id)}
+        />
+      ))}
+    </ul>
+
+And notice in the example above how we pass predefined arguments to the onAdd and onRemove functions
+with the .bind method. (Remember, the first argument of the bind method is what the this keyword
+needs to point to).
 
 ## Miscelanious Questions for later when I have more knowledge
 
