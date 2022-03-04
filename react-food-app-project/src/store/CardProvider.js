@@ -34,12 +34,12 @@ function cartReducer(prevState, action) {
   }
 
   if (action.type === 'REMOVE') {
-    const updatedItems = [...prevState.items];
-    updatedItems.forEach((item) => {
-      if (item.id === action.id) {
-        item.amount -= 1;
-      }
-    });
+    let updatedItems = [...prevState.items];
+    const itemIndex = updatedItems.findIndex((item) => item.id === action.id);
+
+    updatedItems[itemIndex].amount > 1
+      ? (updatedItems[itemIndex].amount -= 1)
+      : (updatedItems = updatedItems.filter((item) => item.id !== action.id));
 
     const updatedTotalAmount = updatedItems
       .map((item) => item.amount * item.price)
