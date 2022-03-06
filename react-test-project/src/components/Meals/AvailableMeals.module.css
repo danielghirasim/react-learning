@@ -1,0 +1,13 @@
+.available-meals {
+  width: 50%;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.available-meals__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}

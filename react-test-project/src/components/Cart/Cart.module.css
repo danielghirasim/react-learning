@@ -1,0 +1,44 @@
+.cart {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.cart__items li {
+  list-style: none;
+}
+
+.cart__total {
+  font-size: 2rem;
+}
+
+.cart__info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart__buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.cart__button {
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.6rem;
+  transition: 0.3s all;
+}
+
+.cart__button--alt {
+  background-color: rgb(184, 3, 3);
+  color: #fff;
+}
+
+.cart__button:active {
+  transform: scale(1.05);
+}

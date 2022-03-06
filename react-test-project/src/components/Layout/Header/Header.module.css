@@ -1,0 +1,14 @@
+.header {
+  padding: 2rem 3rem;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+.navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+}
+
+.navigation__logo {
+  font-size: 2rem;
+}
