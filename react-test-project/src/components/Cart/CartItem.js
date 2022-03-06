@@ -27,11 +27,11 @@ function CartItem(props) {
         <p className={classes['cart-item__price']}>${props.price}</p>
       </div>
       <div className={classes['cart-item__buttons']}>
-        <button className={classes.button} onClick={addItemHandler}>
-          +
-        </button>
         <button className={classes.button} onClick={removeItemHandler}>
           -
+        </button>
+        <button className={classes.button} onClick={addItemHandler}>
+          +
         </button>
       </div>
     </li>

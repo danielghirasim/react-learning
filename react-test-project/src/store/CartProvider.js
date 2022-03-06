@@ -8,6 +8,8 @@ const defaultState = {
 
 function cartReducer(prevState, action) {
   let newItems;
+  let newTotalAmount;
+
   if (action.type === 'ADD') {
     const itemExists = prevState.items.some((item) => item.name === action.item.name);
 
@@ -21,34 +23,32 @@ function cartReducer(prevState, action) {
       newItems[itemIndex].amount += 1;
     }
 
-    const newTotalAmount = newItems
+    newTotalAmount = newItems
       .map((item) => item.price * item.amount)
       .reduce((prevValue, currValue) => prevValue + currValue, 0)
       .toFixed(2);
-
-    return {
-      items: newItems,
-      totalAmount: newTotalAmount,
-    };
   }
 
   if (action.type === 'REMOVE') {
     const itemIndex = prevState.items.findIndex((item) => item.id === action.id);
     newItems = [...prevState.items];
-    newItems[itemIndex].amount > 1 && (newItems[itemIndex].amount -= 1);
 
-    const newTotalAmount = newItems
+    if (newItems[itemIndex].amount > 1) {
+      newItems[itemIndex].amount -= 1;
+    } else {
+      newItems = prevState.items.filter((item) => item.id !== action.id);
+    }
+
+    newTotalAmount = newItems
       .map((item) => item.price * item.amount)
       .reduce((prevValue, currValue) => prevValue + currValue, 0)
       .toFixed(2);
-
-    return {
-      items: newItems,
-      totalAmount: newTotalAmount,
-    };
   }
 
-  return defaultState;
+  return {
+    items: newItems,
+    totalAmount: newTotalAmount,
+  };
 }
 
 function CartProvider(props) {

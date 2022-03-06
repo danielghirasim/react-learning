@@ -3,8 +3,6 @@ import classes from './Cart.module.css';
 import CartItem from './CartItem';
 import CartContext from '../../store/cart-context';
 
-const TEST_DATA = [{ id: 'a1', name: 'pizza', price: 69.69, amount: 4 }];
-
 function Cart(props) {
   const cartContext = useContext(CartContext);
 
@@ -19,7 +17,9 @@ function Cart(props) {
           <strong>Total Amount: ${`${cartContext.totalAmount}`}</strong>
         </p>
         <div className={classes['cart__buttons']}>
-          <button className={`${classes['cart__button']} ${classes['cart__button--alt']}`}>Order</button>
+          {cartContext.items.length > 0 && (
+            <button className={`${classes['cart__button']} ${classes['cart__button--alt']}`}>Order</button>
+          )}
           <button onClick={props.onHide} className={classes['cart__button']}>
             Close
           </button>
