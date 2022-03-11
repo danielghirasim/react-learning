@@ -929,6 +929,67 @@ And notice in the example above how we pass predefined arguments to the onAdd an
 with the .bind method. (Remember, the first argument of the bind method is what the this keyword
 needs to point to).
 
+# What is the difference between React and ReactDOM ?
+
+React handles components, state and how the componenents change then handles passes that data to ReactDOM
+
+# Does a re-evaluation of a component automatically trigger a DOM rerendering ?
+
+No, if something changes in the said component the part of the DOM representing that component changes but not the whole DOM.
+
+# When is a React Component re-executed / re-evaluated ?
+
+Everytime the props, state and context changes.
+
+# What is cheaper resource wise : A Virtual DOM vs Real DOM comparison or a Real DOM re-render ?
+
+A virtual DOM vs real DOM comparison is much cheaper than rerendering the whole DOM.
+
+# What elements does React change in the case of a component re-evaluation ?
+
+Reach only changes the components that have been changed. 
+
+Take the following example.
+
+function App() {
+
+return (
+  <MyButton/>
+  <h2>Test</h2>
+  <MyPara/>
+)
+}
+
+whenever the component above "changes" all of the child components get executed
+
+# If we have a parent component that has several child components in its return statement, what happens when the parent component gets
+# re-evaluated? What happens to the Real DOM of those child components ? 
+
+First of all when the parent component gets re-evaluated so do the child component because behind the scenes does are functions that are in the end called in the
+return statement. The Real DOM of the child component changes only if changes are made to them.
+
+# What is React.memo() used for ? How and where do we use it ?
+
+# Why don't we use React.memo() all the time?
+
+# What is a common gotcha with React.memo()?
+
+# What does useCallback() allow us in React?
+
+# What is useCallback syntax?
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Miscelanious Questions for later when I have more knowledge
 
 # What naming convetion do we use if we pass a handler as a prop from App.js > ParentComponent1 > ParentComponent2
