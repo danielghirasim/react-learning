@@ -970,17 +970,48 @@ return statement. The Real DOM of the child component changes only if changes ar
 
 # What is React.memo() used for ? How and where do we use it ?
 
+React.memo() is a react hook that wraps around around our exported component. This makes it that the exported component
+only re-renders if the props passed into them change
+
 # Why don't we use React.memo() all the time?
+
+React.memo() is quite resource expensive since it has to take the prevState of the prop and compare it to the current state
+of the prop everytime the component re-renders
 
 # What is a common gotcha with React.memo()?
 
+A common gotcha is that if we pass in an object as prop it will still rerender unless we use the useCallback hook because
+objects are reference types and everytime the function is reexecuted without useCallback the reference type will have a new
+place in memory thus it will be different from the last object
+
+true === true // true
+0 === 0 // true
+[1,2,3] === [1,2,3] // false
+
 # What does useCallback() allow us in React?
+
+useCallback allows us to keep code passed into it through component re-renders.
+
+For example let's say we have a button component that takes in a function as a prop then we pass that function into useCallback
+, that function will remain the same trough component re-rendering thanks to useCallback. (it will be the same reference in
+memory)
 
 # What is useCallback syntax?
 
+const buttonHandler = useCallback(() => {
+  ... do this and that
+},[myDependency]) 
 
+# Why do we need a dependency array in the useCallback hook ?
 
+We need a dependency array because if we have a state that is used in the usedCallback which is closed over then that state
+will remain the same in the closure but if we add it as a dependency it will update everytime it changes
 
+const toggleParagraphHandler = useCallback(() => {
+    if (allowToggle) setShowParagraph((prevState) => !prevState);
+  }, [allowToggle]);
+
+allowToggle is closed over in the useCallback function but we pass it in the dependency array so it can mutate if needed.
 
 
 
